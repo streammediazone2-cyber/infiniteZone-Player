@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamZone Pro Hover Match Player</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* DEFINÍCIA FAREBNÝCH MOTÍVOV (CSS PREMENNÉ) */
+    :root {
+      --bg-card: rgba(18, 24, 38, 0.92);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #ffffff;
+      --text-sub: #94a3b8;
+      --accent: #3b82f6;
+      --accent-gradient: linear-gradient(90deg, #3b82f6, #60a5fa);
+      --btn-play-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-border: rgba(255, 255, 255, 0.1);
+      --btn-hover: #ffffff;
+      --slider-bg: rgba(255, 255, 255, 0.15);
+      --playlist-bg: rgba(14, 19, 29, 0.98);
+      --playlist-hover: rgba(255, 255, 255, 0.06);
+      --playlist-active-bg: rgba(59, 130, 246, 0.18);
+      --playlist-active-color: #60a5fa;
+      --shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    [data-theme="light"] {
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --border-card: rgba(0, 0, 0, 0.08);
+      --text-main: #0f172a;
+      --text-sub: #64748b;
+      --accent: #2563eb;
+      --accent-gradient: linear-gradient(90deg, #2563eb, #3b82f6);
+      --btn-play-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
+      --btn-bg: rgba(0, 0, 0, 0.04);
+      --btn-border: rgba(0, 0, 0, 0.08);
+      --btn-hover: #0f172a;
+      --slider-bg: rgba(0, 0, 0, 0.12);
+      --playlist-bg: rgba(248, 250, 252, 0.98);
+      --playlist-hover: rgba(0, 0, 0, 0.04);
+      --playlist-active-bg: rgba(37, 99, 235, 0.1);
+      --playlist-active-color: #2563eb;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="purple"] {
+      --bg-card: rgba(24, 18, 38, 0.92);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #ffffff;
+      --text-sub: #a1a1aa;
+      --accent: #8b5cf6;
+      --accent-gradient: linear-gradient(90deg, #8b5cf6, #ec4899);
+      --btn-play-gradient: linear-gradient(135deg, #8b5cf6, #d946ef);
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-border: rgba(255, 255, 255, 0.1);
+      --btn-hover: #ffffff;
+      --slider-bg: rgba(255, 255, 255, 0.15);
+      --playlist-bg: rgba(18, 13, 30, 0.98);
+      --playlist-hover: rgba(255, 255, 255, 0.06);
+      --playlist-active-bg: rgba(139, 92, 246, 0.2);
+      --playlist-active-color: #f472b6;
+      --shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="emerald"] {
+      --bg-card: rgba(12, 30, 24, 0.92);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #ffffff;
+      --text-sub: #94a3b8;
+      --accent: #10b981;
+      --accent-gradient: linear-gradient(90deg, #10b981, #34d399);
+      --btn-play-gradient: linear-gradient(135deg, #059669, #047857);
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-border: rgba(255, 255, 255, 0.1);
+      --btn-hover: #ffffff;
+      --slider-bg: rgba(255, 255, 255, 0.15);
+      --playlist-bg: rgba(8, 22, 18, 0.98);
+      --playlist-hover: rgba(255, 255, 255, 0.06);
+      --playlist-active-bg: rgba(16, 185, 129, 0.2);
+      --playlist-active-color: #34d399;
+      --shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="sunset"] {
+      --bg-card: rgba(32, 20, 15, 0.92);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #ffffff;
+      --text-sub: #a8a29e;
+      --accent: #f59e0b;
+      --accent-gradient: linear-gradient(90deg, #f59e0b, #f97316);
+      --btn-play-gradient: linear-gradient(135deg, #ea580c, #c2410c);
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-border: rgba(255, 255, 255, 0.1);
+      --btn-hover: #ffffff;
+      --slider-bg: rgba(255, 255, 255, 0.15);
+      --playlist-bg: rgba(22, 12, 8, 0.98);
+      --playlist-hover: rgba(255, 255, 255, 0.06);
+      --playlist-active-bg: rgba(245, 158, 11, 0.2);
+      --playlist-active-color: #fbbf24;
+      --shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="crimson"] {
+      --bg-card: rgba(30, 12, 16, 0.92);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --text-main: #ffffff;
+      --text-sub: #94a3b8;
+      --accent: #ef4444;
+      --accent-gradient: linear-gradient(90deg, #ef4444, #f87171);
+      --btn-play-gradient: linear-gradient(135deg, #dc2626, #b91c1c);
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-border: rgba(255, 255, 255, 0.1);
+      --btn-hover: #ffffff;
+      --slider-bg: rgba(255, 255, 255, 0.15);
+      --playlist-bg: rgba(20, 8, 11, 0.98);
+      --playlist-hover: rgba(255, 255, 255, 0.06);
+      --playlist-active-bg: rgba(239, 68, 68, 0.2);
+      --playlist-active-color: #f87171;
+      --shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .player-card {
+      position: relative;
+      width: 410px;
+      height: 190px;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 16px;
+      color: var(--text-main);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      transition: all 0.35s ease;
+    }
+
+    /* Ambient Blur Pozadie z obalu */
+    .ambient-bg {
+      position: absolute;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(35px) opacity(0.22);
+      z-index: 0;
+      pointer-events: none;
+      transition: background-image 0.5s ease;
+    }
+
+    /* ĽAVÁ POLOVICA: Obal albumu */
+    .album-art-container {
+      position: relative;
+      z-index: 1;
+      width: 158px;
+      height: 158px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-card);
+    }
+
+    .album-art-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* PRAVÝ OBSAHOVÝ BLOK */
+    .right-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      height: 158px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .track-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .track-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .track-title-container {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      position: relative;
+    }
+
+    .track-title {
+      display: inline-block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      will-change: transform;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      30% { transform: translateX(0); }
+      80% { transform: translateX(var(--scroll-dist)); }
+      100% { transform: translateX(var(--scroll-dist)); }
+    }
+
+    .track-title.marquee {
+      animation: marqueeScroll 8s infinite linear alternate;
+    }
+
+    .equalizer-mini {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+      width: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .equalizer-mini.active {
+      opacity: 1;
+    }
+
+    .equalizer-mini span {
+      display: block;
+      width: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      animation: bounce 0.8s infinite ease-in-out alternate;
+    }
+
+    .equalizer-mini span:nth-child(1) { animation-delay: 0.1s; height: 40%; }
+    .equalizer-mini span:nth-child(2) { animation-delay: 0.3s; height: 100%; }
+    .equalizer-mini span:nth-child(3) { animation-delay: 0.2s; height: 70%; }
+
+    @keyframes bounce {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
+
+    .track-artist {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .btn-top-action {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--text-sub);
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      font-size: 0.72rem;
+    }
+
+    .btn-top-action:hover, .btn-top-action.active {
+      background: var(--playlist-active-bg);
+      color: var(--playlist-active-color);
+      border-color: var(--playlist-active-color);
+    }
+
+    /* OVLÁDACIE PRVKY S UPRAVENÝM HOVEROM ROVNAKÝM AKO PLAY */
+    .controls-volume-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .controls-compact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+      padding: 0 4px;
+    }
+
+    /* Ľavá skupina (Shuffle hore, Prev dole) */
+    .controls-group-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+    }
+
+    /* Pravá skupina (Repeat hore, Next dole) */
+    .controls-group-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+    }
+
+    /* Bočné tlačidlá zväčšené o 10% (cca 31px) s Play hover efektom */
+    .btn-side {
+      width: 31px;
+      height: 31px;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: 9px;
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .btn-side:hover {
+      background: var(--btn-play-gradient);
+      color: #ffffff;
+      border-color: transparent;
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Aktívny stav Shuffle / Repeat tlačidiel */
+    .btn-side.active-mode {
+      color: var(--playlist-active-color);
+      background: var(--playlist-active-bg);
+      border-color: var(--playlist-active-color);
+    }
+    .btn-side.active-mode:hover {
+      background: var(--btn-play-gradient);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .loop-badge {
+      position: absolute;
+      top: -2px;
+      right: -3px;
+      font-size: 0.5rem;
+      font-weight: 800;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Zväčšené Play tlačidlo */
+    .btn-play {
+      width: 48px;
+      height: 48px;
+      background: var(--btn-play-gradient);
+      color: #ffffff;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-play:hover {
+      transform: scale(1.08);
+    }
+
+    /* Proporčná vertikálna hlasitosť */
+    .volume-vertical-block {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 48px;
+      padding-left: 8px;
+      border-left: 1px solid var(--border-card);
+      flex-shrink: 0;
+    }
+
+    .volume-icon {
+      color: var(--text-sub);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .volume-icon:hover {
+      color: var(--text-main);
+    }
+
+    .volume-slider-v-container {
+      position: relative;
+      width: 5px;
+      height: 38px;
+      background: var(--slider-bg);
+      border-radius: 3px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .volume-slider-vertical {
+      -webkit-appearance: none;
+      writing-mode: bt-lr;
+      appearance: slider-vertical;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      outline: none;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      opacity: 0;
+    }
+
+    .volume-progress-vertical {
+      width: 100%;
+      height: 80%;
+      background: var(--accent);
+      border-radius: 3px;
+      transition: height 0.05s linear;
+      pointer-events: none;
+    }
+
+    /* POSUVNÍK PRIEBEHU */
+    .progress-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .progress-bar-wrapper {
+      position: relative;
+      width: 100%;
+      height: 5px;
+      background: var(--slider-bg);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-gradient);
+      border-radius: 3px;
+      transition: width 0.08s linear;
+    }
+
+    .time-stamps {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.62rem;
+      color: var(--text-sub);
+    }
+
+    /* Rolovací zoznam skladieb */
+    .playlist-panel {
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--playlist-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 16px;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .playlist-panel.open {
+      right: 0;
+    }
+
+    .playlist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-card);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .btn-close-playlist {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-close-playlist:hover {
+      color: var(--btn-hover);
+    }
+
+    .playlist-items {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .playlist-items::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .playlist-items::-webkit-scrollbar-thumb {
+      background: var(--text-sub);
+      border-radius: 2px;
+    }
+
+    .playlist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .playlist-item:hover {
+      background: var(--playlist-hover);
+      color: var(--text-main);
+    }
+
+    .playlist-item.active {
+      background: var(--playlist-active-bg);
+      color: var(--playlist-active-color);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="player-card" id="player-card">
+    <div class="ambient-bg" id="ambient-bg"></div>
+
+    <!-- ĽAVÁ POLOVICA: Obal albumu -->
+    <div class="album-art-container">
+      <img id="album-art" src="" alt="Album Art">
+    </div>
+
+    <!-- PRAVÝ OBSAHOVÝ BLOK -->
+    <div class="right-content">
+      <!-- Hlavička -->
+      <div class="header-row">
+        <div class="track-info">
+          <div class="track-title-wrapper">
+            <div class="track-title-container" id="title-container">
+              <div class="track-title" id="title">Načítavam...</div>
+            </div>
+            <div class="equalizer-mini" id="equalizer">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="track-artist" id="artist">-</div>
+        </div>
+        
+        <div class="header-actions">
+          <button class="btn-top-action" id="theme-toggle-btn" title="Zmeniť tému (6 tém)"><i class="fa-solid fa-palette"></i></button>
+          <button class="btn-top-action" id="playlist-toggle-btn" title="Zoznam skladieb"><i class="fa-solid fa-list-ul"></i></button>
+        </div>
+      </div>
+
+      <!-- OVLÁDACIE PRVKY S HOVEROM ROVNAKÝM AKO PLAY -->
+      <div class="controls-volume-row">
+        <div class="controls-compact">
+          <!-- ĽAVÁ SKUPINA -->
+          <div class="controls-group-left">
+            <button class="btn btn-side" id="shuffle-btn" title="Náhodné prehrávanie"><i class="fa-solid fa-shuffle"></i></button>
+            <button class="btn btn-side" id="prev-btn" title="Predchádzajúca"><i class="fa-solid fa-backward-step"></i></button>
+          </div>
+
+          <!-- STRED -->
+          <button class="btn btn-play" id="play-btn" title="Prehrať/Pauza (Space)"><i class="fa-solid fa-play" id="play-icon"></i></button>
+
+          <!-- PRAVÁ SKUPINA -->
+          <div class="controls-group-right">
+            <button class="btn btn-side" id="loop-btn" title="Opakovanie (Off / Všetky / Skladba)">
+              <i class="fa-solid fa-repeat"></i>
+              <span class="loop-badge" id="loop-badge">1</span>
+            </button>
+            <button class="btn btn-side" id="next-btn" title="Nasledujúca"><i class="fa-solid fa-forward-step"></i></button>
+          </div>
+        </div>
+
+        <!-- Vertikálna hlasitosť -->
+        <div class="volume-vertical-block">
+          <i class="fa-solid fa-volume-high volume-icon" id="volume-icon" title="Mute / Unmute"></i>
+          <div class="volume-slider-v-container">
+            <div class="volume-progress-vertical" id="volume-progress-v"></div>
+            <input type="range" class="volume-slider-vertical" id="volume-slider" min="0" max="1" step="0.01" value="0.8">
+          </div>
+        </div>
+      </div>
+
+      <!-- Posuvník priebehu skladby -->
+      <div class="progress-section">
+        <div class="progress-bar-wrapper" id="progress-wrapper">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="time-stamps">
+          <span id="current-time">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rolovací zoznam skladieb -->
+    <div class="playlist-panel" id="playlist-panel">
+      <div class="playlist-header">
+        <span>Zoznam skladieb</span>
+        <button class="btn-close-playlist" id="playlist-close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="playlist-items" id="playlist"></div>
+    </div>
+  </div>
+
+  <audio id="audio"></audio>
+
+  <script>
+    const tracks = [
+      {
+        title: "Regalo (Official Radio Edit & Extended Mix)",
+        artist: "Alvaro Soler",
+        cover: "https://picsum.photos/seed/regalo/250/250",
+        url: "https://raw.githubusercontent.com/streammediazone/newmusicplayer/e9a0f407d413260bc9d008518df165bebebd7560/hudba/Alvaro%20Soler%20-%20Regalo.mp3"
+      },
+      {
+        title: "Maria",
+        artist: "Dua Lipa",
+        cover: "https://picsum.photos/seed/maria/250/250",
+        url: "https://raw.githubusercontent.com/streammediazone/newmusicplayer/e9a0f407d413260bc9d008518df165bebebd7560/hudba/Dua%20Lipa%20-%20Maria.mp3"
+      },
+      {
+        title: "Malibu",
+        artist: "Miley Cyrus",
+        cover: "https://picsum.photos/seed/malibu/250/250",
+        url: "https://raw.githubusercontent.com/streammediazone/newmusicplayer/e9a0f407d413260bc9d008518df165bebebd7560/hudba/Miley%20Cyrus%20-%20Malibu.mp3"
+      },
+      {
+        title: "Just Keep Watching",
+        artist: "Tate McRae",
+        cover: "https://picsum.photos/seed/tate/250/250",
+        url: "https://raw.githubusercontent.com/streammediazone/newmusicplayer/2680dd2d112f5d6dbd3fcedd0bf47a49b83bb5ab/hudba/Tate%20McRae%20-%20Just%20Keep%20Watching.mp3"
+      },
+      {
+        title: "Dracula",
+        artist: "Tame Impala",
+        cover: "https://picsum.photos/seed/tame/250/250",
+        url: "https://raw.githubusercontent.com/streammediazone/newmusicplayer/2680dd2d112f5d6dbd3fcedd0bf47a49b83bb5ab/hudba/Tame%20Impala%20-%20Dracula.mp3"
+      }
+    ];
+
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+    let isShuffle = false;
+    let loopState = 0;
+    let lastVolume = 0.8;
+
+    const themes = ['', 'light', 'purple', 'emerald', 'sunset', 'crimson'];
+    let currentThemeIndex = 0;
+
+    const playerCard = document.getElementById('player-card');
+    const ambientBg = document.getElementById('ambient-bg');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const loopBtn = document.getElementById('loop-btn');
+    const loopBadge = document.getElementById('loop-badge');
+    const titleContainer = document.getElementById('title-container');
+    const title = document.getElementById('title');
+    const artist = document.getElementById('artist');
+    const albumArt = document.getElementById('album-art');
+    const progressBar = document.getElementById('progress-bar');
+    const progressWrapper = document.getElementById('progress-wrapper');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeIcon = document.getElementById('volume-icon');
+    const volumeProgressV = document.getElementById('volume-progress-v');
+    const playlistEl = document.getElementById('playlist');
+    
+    const playlistPanel = document.getElementById('playlist-panel');
+    const playlistToggleBtn = document.getElementById('playlist-toggle-btn');
+    const playlistCloseBtn = document.getElementById('playlist-close-btn');
+    const equalizer = document.getElementById('equalizer');
+
+    const savedTheme = localStorage.getItem('sz_player_theme');
+    if (savedTheme) {
+      currentThemeIndex = themes.indexOf(savedTheme);
+      if (currentThemeIndex === -1) currentThemeIndex = 0;
+      applyTheme(themes[currentThemeIndex]);
+    }
+
+    function applyTheme(themeName) {
+      if (themeName) {
+        playerCard.setAttribute('data-theme', themeName);
+      } else {
+        playerCard.removeAttribute('data-theme');
+      }
+      localStorage.setItem('sz_player_theme', themeName);
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      applyTheme(themes[currentThemeIndex]);
+    });
+
+    shuffleBtn.addEventListener('click', () => {
+      isShuffle = !isShuffle;
+      shuffleBtn.classList.toggle('active-mode', isShuffle);
+    });
+
+    loopBtn.addEventListener('click', () => {
+      loopState = (loopState + 1) % 3;
+      if (loopState === 0) {
+        loopBtn.classList.remove('active-mode');
+        loopBadge.style.display = 'none';
+      } else if (loopState === 1) {
+        loopBtn.classList.add('active-mode');
+        loopBadge.style.display = 'none';
+      } else if (loopState === 2) {
+        loopBtn.classList.add('active-mode');
+        loopBadge.style.display = 'flex';
+      }
+    });
+
+    playlistToggleBtn.addEventListener('click', () => {
+      playlistPanel.classList.toggle('open');
+      playlistToggleBtn.classList.toggle('active');
+    });
+
+    playlistCloseBtn.addEventListener('click', () => {
+      playlistPanel.classList.remove('open');
+      playlistToggleBtn.classList.remove('active');
+    });
+
+    function checkMarquee() {
+      title.classList.remove('marquee');
+      setTimeout(() => {
+        if (title.scrollWidth > titleContainer.clientWidth) {
+          const distance = titleContainer.clientWidth - title.scrollWidth - 10;
+          title.style.setProperty('--scroll-dist', `${distance}px`);
+          title.classList.add('marquee');
+        }
+      }, 50);
+    }
+
+    function loadTrack(index) {
+      const track = tracks[index];
+      title.textContent = track.title;
+      artist.textContent = track.artist;
+      albumArt.src = track.cover;
+      ambientBg.style.backgroundImage = `url(${track.cover})`;
+      audio.src = track.url;
+      updatePlaylistUI();
+      setTimeout(checkMarquee, 100);
+    }
+
+    function playTrack() {
+      isPlaying = true;
+      audio.play();
+      playIcon.classList.remove('fa-play');
+      playIcon.classList.add('fa-pause');
+      equalizer.classList.add('active');
+    }
+
+    function pauseTrack() {
+      isPlaying = false;
+      audio.pause();
+      playIcon.classList.remove('fa-pause');
+      playIcon.classList.add('fa-play');
+      equalizer.classList.remove('active');
+    }
+
+    playBtn.addEventListener('click', () => {
+      isPlaying ? pauseTrack() : playTrack();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrackIndex);
+      playTrack();
+    });
+
+    function nextTrackLogic() {
+      if (loopState === 2) {
+        loadTrack(currentTrackIndex);
+        playTrack();
+        return;
+      }
+
+      if (isShuffle) {
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * tracks.length);
+        } while (randomIndex === currentTrackIndex && tracks.length > 1);
+        currentTrackIndex = randomIndex;
+      } else {
+        if (currentTrackIndex === tracks.length - 1 && loopState === 0) {
+          pauseTrack();
+          return;
+        }
+        currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+      }
+      loadTrack(currentTrackIndex);
+      playTrack();
+    }
+
+    nextBtn.addEventListener('click', nextTrackLogic);
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationEl.textContent = formatTime(audio.duration);
+      }
+    });
+
+    progressWrapper.addEventListener('click', (e) => {
+      const width = progressWrapper.clientWidth;
+      const clickX = e.offsetX;
+      audio.currentTime = (clickX / width) * audio.duration;
+    });
+
+    function updateVolumeUI(val) {
+      audio.volume = val;
+      volumeSlider.value = val;
+      volumeProgressV.style.height = `${val * 100}%`;
+
+      if (val == 0) {
+        volumeIcon.className = 'fa-solid fa-volume-xmark volume-icon';
+      } else if (val < 0.5) {
+        volumeIcon.className = 'fa-solid fa-volume-low volume-icon';
+      } else {
+        volumeIcon.className = 'fa-solid fa-volume-high volume-icon';
+      }
+    }
+
+    volumeSlider.addEventListener('input', (e) => {
+      updateVolumeUI(e.target.value);
+    });
+
+    volumeIcon.addEventListener('click', () => {
+      if (audio.volume > 0) {
+        lastVolume = audio.volume;
+        updateVolumeUI(0);
+      } else {
+        updateVolumeUI(lastVolume || 0.8);
+      }
+    });
+
+    audio.addEventListener('ended', nextTrackLogic);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        playBtn.click();
+      } else if (e.code === 'ArrowRight') {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+      } else if (e.code === 'ArrowLeft') {
+        audio.currentTime = Math.max(0, audio.currentTime - 5);
+      } else if (e.code === 'ArrowUp') {
+        e.preventDefault();
+        updateVolumeUI(Math.min(1, audio.volume + 0.1));
+      } else if (e.code === 'ArrowDown') {
+        e.preventDefault();
+        updateVolumeUI(Math.max(0, audio.volume - 0.1));
+      } else if (e.code === 'KeyM') {
+        volumeIcon.click();
+      }
+    });
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function renderPlaylist() {
+      playlistEl.innerHTML = '';
+      tracks.forEach((track, index) => {
+        const item = document.createElement('div');
+        item.classList.add('playlist-item');
+        if (index === currentTrackIndex) item.classList.add('active');
+        item.innerHTML = `<span>${track.title}</span><span style="font-size:0.72rem; opacity: 0.75;">${track.artist}</span>`;
+        item.addEventListener('click', () => {
+          currentTrackIndex = index;
+          loadTrack(currentTrackIndex);
+          playTrack();
+          playlistPanel.classList.remove('open');
+          playlistToggleBtn.classList.remove('active');
+        });
+        playlistEl.appendChild(item);
+      });
+    }
+
+    function updatePlaylistUI() {
+      const items = playlistEl.querySelectorAll('.playlist-item');
+      items.forEach((item, index) => {
+        if (index === currentTrackIndex) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    loadTrack(currentTrackIndex);
+    renderPlaylist();
+    updateVolumeUI(volumeSlider.value);
+  </script>
+</body>
+</html>
